@@ -16,6 +16,11 @@ extension MensaDay {
         return try? JSONDecoder().decode(MensaDay.self, from: data)
     }
 
+    static func fromDataOrNull(_ data: Data?) -> MensaDay? {
+        guard data != nil else { return nil }
+        return try? JSONDecoder().decode(MensaDay.self, from: data!)
+    }
+
     var localDate: Date? {
         return ISO8601DateFormatter().date(from: self.date)
     }
