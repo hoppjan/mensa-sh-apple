@@ -9,51 +9,45 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @State private var mensaDay: MensaDay? = nil
+    @State private var meals: [Meal] = [
+        Meal(
+            name: "Lecker Essen",
+            date: "2026-05-15",
+            price: GroupedPrices(students: 2, employees: 0, guests: 0),
+            vegan: true,
+            vegetarian: true,
+            location: MensaLocation(code: "HL_ME", name: "", city: ""),
+            allergens: [],
+            language: Language.German,
+            
+        )
+    ]
 
     var body: some View {
-        NavigationViewWrapper {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-#if os(macOS)
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-#endif
-            .toolbar {
-#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-#endif
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
+        Text("Mensa SH")
+        List(meals) { meal in
+            Text(meal.name)
+                .bold()
+
+            if let price = meal.price.getFor(group: .Students).formatPrice() {
+                Text(price)
             }
         }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
+        .task {
+            requestMensaDays(
+                locations: [
+                    MensaLocation(code: Location.BitsAndBytes.rawValue, name: "", city: ""),
+                    MensaLocation(code: Location.MensaLuebeck.rawValue, name: "", city: ""),
+                ],
+                date: Date.now,
+                lang: Language.German,
+                completion: { apiResponse in
+                    guard let day = apiResponse.toMensaDays().first else { return }
+                    self.mensaDay = day
+                    self.meals = day.meals
+                }
+            )
         }
     }
 }
@@ -76,5 +70,4 @@ fileprivate struct NavigationViewWrapper<Content: View>: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
 }
