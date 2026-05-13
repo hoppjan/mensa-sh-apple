@@ -25,6 +25,12 @@ extension Meal: Hashable {
     }
 }
 
+extension Meal: Identifiable {
+    var id: String {
+        self.date + self.location.code + self.name
+    }
+}
+
 extension Meal {
     var emoji: String {
         if self.vegan {
