@@ -5,10 +5,10 @@ struct ApiResponse: Codable {
     let data: [Meal]
 }
 
-extension String {
-    func toApiResponse() -> ApiResponse? {
-        guard let data = self.data(using: .utf8) else { return nil }
-        return try? JSONDecoder().decode(ApiResponse.self, from: data)
+extension Data {
+    func toApiResponse() -> ApiResponse {
+        let decodedResponse = try? JSONDecoder().decode(ApiResponse.self, from: self)
+        return decodedResponse ?? ApiResponse(last_updated: Date.now.ISO8601Format(), data: [])
     }
 }
 
