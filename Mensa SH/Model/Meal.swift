@@ -1,0 +1,40 @@
+import Foundation
+
+struct Meal: Codable {
+    let name: String
+    let date: String
+    let price: GroupedPrices
+    let vegan: Bool
+    let vegetarian: Bool
+    let location: MensaLocation
+    let allergens: [Allergens]
+    let language: Language
+}
+
+extension Meal: Equatable {
+    static func ==(lhs: Meal, rhs: Meal) -> Bool {
+        return lhs.name == rhs.name && lhs.date == rhs.date && lhs.location.code == rhs.location.code
+    }
+}
+
+extension Meal: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.name)
+        hasher.combine(self.date)
+        hasher.combine(self.location.code)
+    }
+}
+
+extension Meal {
+    var emoji: String {
+        if self.vegan {
+            return "🌻"
+        } else if self.vegetarian {
+            return "🌽"
+        } else if allergens.contains(where: { "Fi" == $0.rawValue }) {
+            return "🐟"
+        } else {
+            return "🥩"
+        }
+    }
+}
