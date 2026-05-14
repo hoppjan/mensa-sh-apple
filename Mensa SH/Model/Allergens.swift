@@ -1,3 +1,8 @@
+struct Allergen: Codable {
+    let code: Allergens
+    let name: String
+}
+
 enum Allergens: String, Codable, CaseIterable {
     case Eggs = "Ei"
     case Peanuts = "En"

@@ -7,7 +7,7 @@ struct Meal: Codable {
     let vegan: Bool
     let vegetarian: Bool
     let location: MensaLocation
-    let allergens: [Allergens]
+    let allergens: [Allergen]
     let language: Language
 }
 
@@ -37,7 +37,7 @@ extension Meal {
             return "🌻"
         } else if self.vegetarian {
             return "🌽"
-        } else if allergens.contains(where: { "Fi" == $0.rawValue }) {
+        } else if allergens.contains(where: { Allergens.Fish == $0.code }) {
             return "🐟"
         } else {
             return "🥩"
