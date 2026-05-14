@@ -5,12 +5,7 @@ struct MealList: View {
 
     var body: some View {
         List(meals) { meal in
-            Text(meal.name)
-                .bold()
-            
-            if let price = meal.price.getFor(group: .Students).formatPrice() {
-                Text(price)
-            }
+            MealView(meal: meal)
         }
         .task {
             var dateComponent = DateComponents()
