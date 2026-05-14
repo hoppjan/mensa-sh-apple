@@ -1,6 +1,6 @@
 import SwiftUI
 
-class Settings {
+class MensaSettings {
     static let showDate = "settings.showDate"
     static let showEmoji = "settings.showEmoji"
     static let priceGroup = "settings.priceGroup"
@@ -11,22 +11,22 @@ class Settings {
 }
 
 struct SettingsView: View {
-    @AppStorage(wrappedValue: true, Settings.showDate)
+    @AppStorage(wrappedValue: true, MensaSettings.showDate)
     private var showDate: Bool
     
-    @AppStorage(wrappedValue: true, Settings.showEmoji)
+    @AppStorage(wrappedValue: true, MensaSettings.showEmoji)
     private var showEmoji: Bool
 
-    @AppStorage(wrappedValue: .Students, Settings.priceGroup)
+    @AppStorage(wrappedValue: .Students, MensaSettings.priceGroup)
     private var priceGroup: PriceGroup
     
-    @AppStorage(wrappedValue: .Lübeck, Settings.city)
+    @AppStorage(wrappedValue: .Lübeck, MensaSettings.city)
     private var city: City
     
     //@AppStorage(wrappedValue: [.MensaLuebeck, .CafeteriaLuebeck, .BitsAndBytes], Settings.locations)
     //private var locations: [Location]
 
-    @AppStorage(wrappedValue: .None, Settings.dietFilter)
+    @AppStorage(wrappedValue: .None, MensaSettings.dietFilter)
     private var dietFilter: DietFilter
     
     //@AppStorage(wrappedValue: [], Settings.allergens)

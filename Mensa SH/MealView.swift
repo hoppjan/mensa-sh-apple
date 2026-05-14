@@ -3,10 +3,10 @@ import SwiftUI
 struct MealView: View {
     @State var meal: Meal
 
-    @AppStorage(wrappedValue: true, Settings.showEmoji)
+    @AppStorage(wrappedValue: true, MensaSettings.showEmoji)
     private var showEmoji: Bool
 
-    @AppStorage(wrappedValue: .Students, Settings.priceGroup)
+    @AppStorage(wrappedValue: .Students, MensaSettings.priceGroup)
     private var priceGroup: PriceGroup
 
     var body: some View {
