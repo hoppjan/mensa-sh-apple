@@ -4,10 +4,10 @@ struct ContentView: View {
     @State private var title = "Mensa SH"
 
     var body: some View {
+        #if os(iOS)
         NavigationView {
             MealListView()
                 .navigationTitle(title)
-                #if os(iOS)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink(destination: SettingsView()) {
@@ -15,8 +15,11 @@ struct ContentView: View {
                         }
                     }
                 }
-                #endif
+                
         }
+        #else
+        MealListView()
+        #endif
     }
 }
 
