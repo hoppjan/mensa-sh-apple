@@ -10,3 +10,7 @@ class Language: Codable {
     static let German = Language(code: "de", name: "Deutsch")
     static let English = Language(code: "en", name: "English")
 }
+
+protocol Translatable {
+    func translate(_ language: Language) -> String
+}

@@ -44,7 +44,7 @@ struct SettingsView: View {
             Section {
                 Picker("Preisgruppe", selection: $priceGroup) {
                     ForEach(PriceGroup.allCases, id: \.self) { priceGroup in
-                        Text(priceGroup.rawValue)
+                        Text(priceGroup.translate(Language.German))
                     }
                 }
                 Picker("Stadt", selection: $city) {
@@ -54,7 +54,7 @@ struct SettingsView: View {
                 }
                 Picker("Ernährungstyp", selection: $dietFilter) {
                     ForEach(DietFilter.allCases, id: \.self) { diet in
-                        Text(diet.rawValue)
+                        Text(diet.translate(Language.German))
                     }
                 }
             } header: {

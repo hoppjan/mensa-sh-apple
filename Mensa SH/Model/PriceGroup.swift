@@ -9,3 +9,17 @@ extension PriceGroup: Identifiable {
         self.rawValue
     }
 }
+
+extension PriceGroup: Translatable {
+    func translate(_ language: Language) -> String {
+        if language.code == Language.German.code {
+            return switch self {
+            case .Students: "Studierende"
+            case .Employees: "Angestellte"
+            case .Guests: "Gäste"
+            }
+        } else {
+            return self.rawValue
+        }
+    }
+}
