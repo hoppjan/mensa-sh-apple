@@ -14,5 +14,12 @@ struct Mensa_SHApp: App {
         WindowGroup {
             ContentView()
         }
+        #if os(macOS)
+        Settings {
+            SettingsView()
+                .scenePadding()
+                .frame(maxWidth: 400, minHeight: 300)
+        }
+        #endif
     }
 }

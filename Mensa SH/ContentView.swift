@@ -7,6 +7,15 @@ struct ContentView: View {
         NavigationView {
             MealListView()
                 .navigationTitle(title)
+                #if os(iOS)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        NavigationLink(destination: SettingsView()) {
+                            Image(systemName: "gear")
+                        }
+                    }
+                }
+                #endif
         }
     }
 }
