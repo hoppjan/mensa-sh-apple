@@ -25,7 +25,9 @@ struct ContentView: View {
     ]
 
     var body: some View {
+#if os(iOS)
         Text("Mensa SH")
+#endif
         List(meals) { meal in
             Text(meal.name)
                 .bold()
