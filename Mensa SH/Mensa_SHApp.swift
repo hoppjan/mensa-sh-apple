@@ -18,7 +18,6 @@ struct Mensa_SHApp: App {
         Settings {
             SettingsView()
                 .scenePadding()
-                .frame(maxWidth: 400, minHeight: 300)
         }
         #endif
     }
