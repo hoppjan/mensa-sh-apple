@@ -1,25 +1,5 @@
 import Foundation
 
-func request(urlString: String, completion: @escaping (Data?) -> Void) {
-    let url = URL(string: urlString)!
-
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    
-    let session = URLSession.shared.dataTask(with: request) { data, response, error in
-        defer {
-            DispatchQueue.main.async {
-                completion(nil)
-            }
-        }
-
-        guard error == nil, let data = data else { return }
-        completion(data)
-    }
-    session.resume()
-}
-
 func requestMensaDays(locations: [MensaLocation], date: Date, lang: Language, completion: @escaping (ApiResponse) -> Void) {
     let locationsString = locations.map { l in l.code }.joined(separator: ",")
 
@@ -36,12 +16,18 @@ func requestMensaDays(locations: [MensaLocation], date: Date, lang: Language, co
         URLQueryItem(name: "date", value: dateString),
         URLQueryItem(name: "lang", value: lang.code)
     ]
+    
+    var request = URLRequest(url: components.url!)
+    request.httpMethod = "GET"
 
-    request(
-        urlString: components.url!.absoluteString,
-        completion: { data in
+    let session = URLSession.shared.dataTask(
+        with: request,
+        completionHandler: { data, response, error in
             guard data != nil else { return }
-            completion(data!.toApiResponse())
+            DispatchQueue.main.async {
+                completion(data!.toApiResponse())
+            }
         }
     )
+    session.resume()
 }
