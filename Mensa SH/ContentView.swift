@@ -1,14 +1,8 @@
-//
-//  ContentView.swift
-//  Mensa SH
-//
-//  Created by Jan Torben Hopp on 12.05.26.
-//
-
 import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @State private var title = "Mensa SH"
     @State private var mensaDay: MensaDay? = nil
     @State private var meals: [Meal] = [
         Meal(
@@ -25,33 +19,33 @@ struct ContentView: View {
     ]
 
     var body: some View {
-#if os(iOS)
-        Text("Mensa SH")
-#endif
-        List(meals) { meal in
-            Text(meal.name)
-                .bold()
+        NavigationView {
+            List(meals) { meal in
+                Text(meal.name)
+                    .bold()
 
-            if let price = meal.price.getFor(group: .Students).formatPrice() {
-                Text(price)
-            }
-        }
-        .task {
-            var dateComponent = DateComponents()
-            dateComponent.day = 1
-            requestMensaDays(
-                locations: [
-                    MensaLocation(code: Location.BitsAndBytes.rawValue, name: "", city: ""),
-                    MensaLocation(code: Location.MensaLuebeck.rawValue, name: "", city: ""),
-                ],
-                date: Calendar.current.date(byAdding: dateComponent, to: Date.now)!,
-                lang: Language.German,
-                completion: { apiResponse in
-                    guard let day = apiResponse.toMensaDays().first else { return }
-                    self.mensaDay = day
-                    self.meals = day.meals
+                if let price = meal.price.getFor(group: .Students).formatPrice() {
+                    Text(price)
                 }
-            )
+            }
+            .task {
+                var dateComponent = DateComponents()
+                dateComponent.day = 1
+                requestMensaDays(
+                    locations: [
+                        MensaLocation(code: Location.BitsAndBytes.rawValue, name: "", city: ""),
+                        MensaLocation(code: Location.MensaLuebeck.rawValue, name: "", city: ""),
+                    ],
+                    date: Calendar.current.date(byAdding: dateComponent, to: Date.now)!,
+                    lang: Language.German,
+                    completion: { apiResponse in
+                        guard let day = apiResponse.toMensaDays().first else { return }
+                        self.mensaDay = day
+                        self.meals = day.meals
+                    }
+                )
+            }
+            .navigationTitle(title)
         }
     }
 }
