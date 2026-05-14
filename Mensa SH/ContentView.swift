@@ -6,7 +6,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            MealList()
+            MealListView()
                 .navigationTitle(title)
         }
     }

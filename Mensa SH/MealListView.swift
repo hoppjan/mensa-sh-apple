@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MealList: View {
+struct MealListView: View {
     @State var meals: [Meal] = []
 
     var body: some View {
