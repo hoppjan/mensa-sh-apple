@@ -35,12 +35,14 @@ struct ContentView: View {
             }
         }
         .task {
+            var dateComponent = DateComponents()
+            dateComponent.day = 1
             requestMensaDays(
                 locations: [
                     MensaLocation(code: Location.BitsAndBytes.rawValue, name: "", city: ""),
                     MensaLocation(code: Location.MensaLuebeck.rawValue, name: "", city: ""),
                 ],
-                date: Date.now,
+                date: Calendar.current.date(byAdding: dateComponent, to: Date.now)!,
                 lang: Language.German,
                 completion: { apiResponse in
                     guard let day = apiResponse.toMensaDays().first else { return }
