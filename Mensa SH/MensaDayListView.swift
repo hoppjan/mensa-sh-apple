@@ -4,9 +4,15 @@ struct MensaDayListView: View {
     @State var mensaDays: [MensaDay] = []
 
     var body: some View {
-        List(mensaDays, id: \.date) { day in
-            Text(day.date)
-            MealListView(meals: day.meals)
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 12) {
+                ForEach(mensaDays, id: \.date) { day in
+                    Section(header: Text(day.date)) {
+                        MealListView(meals: day.meals)
+                    }
+                }
+            }
+            .padding(20)
         }
         .task {
             requestMensaDays(
